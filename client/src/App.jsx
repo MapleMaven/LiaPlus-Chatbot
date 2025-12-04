@@ -1,23 +1,22 @@
 import React from 'react'
+import ChatInterface from './components/ChatInterface'
+import SummaryModal from './components/SummaryModal'
 
 export default function App() {
+  // Placeholder props for now - will implement state in Step 3
+  const mockMessages = []
+  const mockSendMessage = (text) => console.log('Sent:', text)
+  const mockEndConversation = () => console.log('End conversation')
+  
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
-      <header className="p-4 shadow-md bg-white">
-        <h1 className="text-xl font-semibold">LiaPlus</h1>
-      </header>
-
-      <main className="flex-1 overflow-auto p-4">
-        {/* Chat area will go here */}
-        <div className="text-center text-slate-400">Chat UI will appear here.</div>
-      </main>
-
-      <footer className="p-4 bg-white">
-        <div className="flex gap-2">
-          <input className="flex-1 px-3 py-2 border rounded" placeholder="Type a message..." />
-          <button className="px-4 py-2 bg-blue-600 text-white rounded">Send</button>
-        </div>
-      </footer>
-    </div>
+    <>
+      <ChatInterface
+        messages={mockMessages}
+        onSendMessage={mockSendMessage}
+        isLoading={false}
+        onEndConversation={mockEndConversation}
+      />
+      <SummaryModal isOpen={false} onClose={() => {}} summary="" />
+    </>
   )
 }
