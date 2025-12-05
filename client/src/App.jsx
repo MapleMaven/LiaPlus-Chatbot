@@ -64,7 +64,18 @@ export default function App() {
       const response = await axios.post(`${API_BASE_URL}/analyze`, {
         history: messages
       })
-      setSummary(response.data.summary)
+      
+      // Calculate sentiment statistics
+      const sentimentCounts = { Positive: 0, Negative: 0, Neutral: 0 }
+      messages.forEach(msg => {
+        if (msg.sender === 'bot' && msg.sentiment) {
+          sentimentCounts[msg.sentiment] = (sentimentCounts[msg.sentiment] || 0) + 1
+        }
+      })
+      
+      const statsText = `\n\n📊 Sentiment Statistics:\n• ${sentimentCounts.Positive} Positive messages\n• ${sentimentCounts.Negative} Negative messages\n• ${sentimentCounts.Neutral} Neutral messages\n• Total: ${messages.length} messages exchanged`
+      
+      setSummary(response.data.summary + statsText)
     } catch (error) {
       console.error('Error analyzing conversation:', error)
       setSummary('Sorry, I could not analyze the conversation. Please ensure the backend server is running.')
