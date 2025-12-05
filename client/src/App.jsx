@@ -3,7 +3,7 @@ import axios from 'axios'
 import ChatInterface from './components/ChatInterface'
 import SummaryModal from './components/SummaryModal'
 
-const API_BASE_URL = 'http://localhost:8000'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
 export default function App() {
   const [messages, setMessages] = useState([])
@@ -75,6 +75,13 @@ export default function App() {
     setShowSummary(false)
   }
 
+  const handleNewConversation = () => {
+    setMessages([])
+    setNextId(1)
+    setShowSummary(false)
+    setSummary('')
+  }
+
   return (
     <>
       <ChatInterface
@@ -87,6 +94,7 @@ export default function App() {
         isOpen={showSummary}
         onClose={handleCloseSummary}
         summary={summary}
+        onNewConversation={handleNewConversation}
       />
     </>
   )

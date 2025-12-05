@@ -98,6 +98,10 @@ cd client
 
 # Install dependencies
 npm install
+
+# Configure environment variables (optional)
+cp .env.example .env
+# Default API URL is http://localhost:8000
 ```
 
 ## 🎮 Running the Application
@@ -122,6 +126,22 @@ npm run dev
 Frontend will run on: `http://localhost:5173`
 
 Open your browser and visit `http://localhost:5173`
+
+## 🧪 Running Tests
+
+### Backend API Tests
+
+```bash
+cd server
+# Activate venv first
+pytest test_api.py -v
+```
+
+This runs 8 test cases covering:
+- Health check endpoints
+- Chat endpoint with different sentiments (Positive, Negative, Neutral)
+- Analyze endpoint with conversation history
+- Input validation
 
 ## 📡 API Endpoints
 

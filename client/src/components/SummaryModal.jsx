@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SummaryModal({ isOpen, onClose, summary }) {
+export default function SummaryModal({ isOpen, onClose, summary, onNewConversation }) {
   if (!isOpen) return null
 
   return (
@@ -34,12 +34,18 @@ export default function SummaryModal({ isOpen, onClose, summary }) {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t flex justify-end">
+        <div className="p-6 border-t flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
           >
             Close
+          </button>
+          <button
+            onClick={onNewConversation}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            New Conversation
           </button>
         </div>
       </div>
