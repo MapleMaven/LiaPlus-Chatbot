@@ -2,7 +2,7 @@
 
 A Full-Stack sentiment analysis chatbot that provides **real-time message-level sentiment detection** (Tier 2) and **AI-powered conversation summaries** (Tier 1).
 
-## 🎯 Features
+## Features
 
 - **Dual-Tier Sentiment Analysis Architecture:**
   - **Tier 2 (Local):** Instant message-level sentiment analysis using VADER
@@ -13,7 +13,7 @@ A Full-Stack sentiment analysis chatbot that provides **real-time message-level 
 - **Modern UI** built with React + Tailwind CSS
 - **RESTful API** with FastAPI backend
 
-## 🏗️ Architecture
+## Architecture
 
 ### Tech Stack
 
@@ -52,7 +52,7 @@ LiaPlus-Chatbot/
 └── README.md
 ```
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 
@@ -104,7 +104,7 @@ cp .env.example .env
 # Default API URL is http://localhost:8000
 ```
 
-## 🎮 Running the Application
+## Running the Application
 
 ### Start Backend Server
 
@@ -127,7 +127,7 @@ Frontend will run on: `http://localhost:5173`
 
 Open your browser and visit `http://localhost:5173`
 
-## 🧪 Running Tests
+## Running Tests
 
 ### Backend API Tests
 
@@ -143,7 +143,7 @@ This runs 8 test cases covering:
 - Analyze endpoint with conversation history
 - Input validation
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### POST `/chat`
 
@@ -185,7 +185,7 @@ Analyze entire conversation with AI-powered insights.
 }
 ```
 
-## 🧠 How It Works
+## How It Works
 
 ### Tier 2: Instant Sentiment (VADER)
 
@@ -209,7 +209,7 @@ Analyze entire conversation with AI-powered insights.
 5. Returns comprehensive summary
 6. Frontend displays in modal popup
 
-## 🎨 UI Features
+## UI Features
 
 - **Auto-scroll** to latest messages
 - **Sentiment badges** on bot messages (color-coded)
@@ -218,13 +218,13 @@ Analyze entire conversation with AI-powered insights.
 - **Responsive design** with Tailwind CSS
 - **Clean, modern interface**
 
-## 🔒 Security Notes
+## Security Notes
 
 - `.env` file is gitignored (never commit API keys)
 - CORS configured for `localhost:5173` only
 - API key stored server-side only
 
-## 📝 Development Notes
+## Development Notes
 
 This project follows a **modular architecture** with strict separation between:
 - **UI Layer** (React components)
@@ -237,7 +237,7 @@ This project follows a **modular architecture** with strict separation between:
 - In-memory storage (suitable for 2-day sprint)
 - Rule-based bot responses (focus on sentiment architecture)
 
-## 🚧 Future Enhancements
+## Future Enhancements
 
 - [ ] Persistent storage (MongoDB/PostgreSQL)
 - [ ] User authentication
@@ -246,11 +246,11 @@ This project follows a **modular architecture** with strict separation between:
 - [ ] Export conversation analysis as PDF
 - [ ] Multi-language sentiment support
 
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
 
-## 👨‍💻 Author
+## Author
 
 Built by Kaushik as part of the LiaPlus internship assessment.
 
