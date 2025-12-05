@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import ChatInterface from './components/ChatInterface'
 import SummaryModal from './components/SummaryModal'
+
+const API_BASE_URL = 'http://localhost:8000'
 
 export default function App() {
   const [messages, setMessages] = useState([])
@@ -9,26 +12,7 @@ export default function App() {
   const [summary, setSummary] = useState('')
   const [nextId, setNextId] = useState(1)
 
-  // Mock sentiment responses
-  const getMockSentiment = () => {
-    const sentiments = ['Positive', 'Negative', 'Neutral']
-    return sentiments[Math.floor(Math.random() * sentiments.length)]
-  }
-
-  // Mock bot responses
-  const getMockBotResponse = (userMessage) => {
-    const responses = [
-      "That's interesting! Tell me more.",
-      "I understand how you feel.",
-      "How does that make you feel?",
-      "Can you elaborate on that?",
-      "I see what you mean.",
-      "That's a great point!",
-    ]
-    return responses[Math.floor(Math.random() * responses.length)]
-  }
-
-  const sendMessage = (text) => {
+  const sendMessage = async (text) => {
     // Add user message immediately
     const userMessage = {
       id: nextId,
@@ -39,27 +23,52 @@ export default function App() {
     setMessages((prev) => [...prev, userMessage])
     setNextId(nextId + 1)
 
-    // Simulate bot typing and response
+    // Call backend API
     setIsLoading(true)
-    setTimeout(() => {
-      const sentiment = getMockSentiment()
+    try {
+      const response = await axios.post(`${API_BASE_URL}/chat`, { text })
+      
+      // Random typing delay (800-2000ms) for human-like feel
+      const typingDelay = Math.floor(Math.random() * 1201) + 800
+      await new Promise(resolve => setTimeout(resolve, typingDelay))
+      
       const botMessage = {
         id: nextId + 1,
-        text: getMockBotResponse(text),
+        text: response.data.bot_text,
         sender: 'bot',
-        sentiment: sentiment,
+        sentiment: response.data.sentiment,
       }
       setMessages((prev) => [...prev, botMessage])
       setNextId(nextId + 2)
+    } catch (error) {
+      console.error('Error sending message:', error)
+      // Fallback bot message on error
+      const errorMessage = {
+        id: nextId + 1,
+        text: 'Sorry, I encountered an error. Please try again.',
+        sender: 'bot',
+        sentiment: 'Neutral',
+      }
+      setMessages((prev) => [...prev, errorMessage])
+      setNextId(nextId + 2)
+    } finally {
       setIsLoading(false)
-    }, 1000)
+    }
   }
 
-  const handleEndConversation = () => {
-    // Mock summary generation
+  const handleEndConversation = async () => {
     setShowSummary(true)
-    const mockSummary = `Conversation Summary:\n\nYou exchanged ${messages.length} messages during this conversation. The bot detected various emotional tones throughout the chat. This is a mock analysis that will be replaced with AI-powered insights in the backend integration phase.\n\nOverall Sentiment: Mixed\nKey Topics: General conversation\nEmotional Journey: The conversation showed varied emotional responses.`
-    setSummary(mockSummary)
+    setSummary('Analyzing conversation...')
+    
+    try {
+      const response = await axios.post(`${API_BASE_URL}/analyze`, {
+        history: messages
+      })
+      setSummary(response.data.summary)
+    } catch (error) {
+      console.error('Error analyzing conversation:', error)
+      setSummary('Sorry, I could not analyze the conversation. Please ensure the backend server is running.')
+    }
   }
 
   const handleCloseSummary = () => {
