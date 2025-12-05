@@ -80,9 +80,19 @@ Please provide a comprehensive analysis including:
 Provide your analysis in a clear, empathetic tone."""
     
     try:
-        # Use Gemini 1.5 Flash model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # Use Gemini 2.5 Flash model
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(prompt)
-        return response.text
+        
+        # Clean up markdown formatting for natural text
+        text = response.text
+        # Remove markdown headers (##, ###, etc)
+        import re
+        text = re.sub(r'^#+\s*', '', text, flags=re.MULTILINE)
+        # Remove bold/italic markers (**text**, *text*)
+        text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
+        text = re.sub(r'\*([^*]+)\*', r'\1', text)
+        
+        return text
     except Exception as e:
         return f"Error generating analysis: {str(e)}"

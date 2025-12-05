@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from services import analyze_message
+from typing import List, Optional
+from services import analyze_message, analyze_conversation
 
 app = FastAPI(title="LiaPlus Backend API")
 
@@ -21,6 +22,18 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     bot_text: str
     sentiment: str
+
+class Message(BaseModel):
+    id: int
+    text: str
+    sender: str
+    sentiment: Optional[str] = None
+
+class AnalyzeRequest(BaseModel):
+    history: List[Message]
+
+class AnalyzeResponse(BaseModel):
+    summary: str
 
 @app.get("/")
 async def root():
@@ -71,3 +84,18 @@ async def chat(request: ChatRequest):
         bot_text=bot_text,
         sentiment=label
     )
+
+@app.post("/analyze", response_model=AnalyzeResponse)
+async def analyze(request: AnalyzeRequest):
+    """
+    Analyze the entire conversation and generate a summary.
+    
+    Tier 1: Uses Gemini API for context-aware conversation analysis.
+    """
+    # Convert Pydantic models to dicts for the service layer
+    history_dicts = [msg.dict() for msg in request.history]
+    
+    # Call Gemini analysis (Tier 1)
+    summary_text = analyze_conversation(history_dicts)
+    
+    return AnalyzeResponse(summary=summary_text)
